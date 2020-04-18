@@ -1,0 +1,5 @@
+.import/
+.mono/
+.vs/
+mono/
+*.user
