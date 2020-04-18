@@ -2,7 +2,7 @@ using Godot;
 
 public class PlayerController : KinematicBody2D	
 {
-	private int speed = 64;
+	private int speed = 96;
     private Vector2 velocity = new Vector2();
 
 	private AnimatedSprite PlayerSprite;
