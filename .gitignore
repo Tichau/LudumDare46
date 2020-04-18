@@ -2,4 +2,6 @@
 .mono/
 .vs/
 mono/
+builds/
 *.user
+*~
