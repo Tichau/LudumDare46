@@ -31,25 +31,27 @@ public class PlayerController : KinematicBody2D
 
 		if (Input.IsActionPressed("game_down"))
         {
-            this.velocity.y += speed;
+            this.velocity.y += 1;
 			animation = "walk-front";
 			
         }
         if (Input.IsActionPressed("game_up"))
         {
-            this.velocity.y -= speed;
+            this.velocity.y -= 1;
 			animation = "walk-back";
         }
 		if (Input.IsActionPressed("game_right"))
         {
-            this.velocity.x += speed;
+            this.velocity.x += 1;
 			animation = "walk-right";
         }
 		if (Input.IsActionPressed("game_left"))
         {
-            this.velocity.x -= speed;
+            this.velocity.x -= 1;
 			animation = "walk-left";
         }
+
+		this.velocity = this.velocity.Normalized() * this.speed;
 
 		if (this.PlayerSprite.Animation != animation)
 		{
