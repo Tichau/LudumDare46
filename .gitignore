@@ -5,3 +5,4 @@ mono/
 builds/
 *.user
 *~
+*-autosave.kra
