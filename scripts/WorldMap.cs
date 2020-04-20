@@ -35,8 +35,8 @@ public class WorldMap : TileMap
         World.Generator.Settings settings = new World.Generator.Settings
         {
             Seed = 2,
-            SeaLevel = 0.5f,
-            ChaosLevel = 0.6f,
+            SeaLevel = 0.45f,
+            ChaosLevel = 0.7f,
         };
 
         this.worldGenerator = new World.Generator(settings);
@@ -53,7 +53,8 @@ public class WorldMap : TileMap
 
     public override void _Process(float delta)
     {
-        World.PatchCoordinates currentPatch = World.PatchCoordinates.FromTile(World.TileCoordinates.FromPosition(this.player.Position, this.CellSize));
+        var playerTile = World.TileCoordinates.FromPosition(this.player.Position, this.CellSize);
+        World.PatchCoordinates currentPatch = World.PatchCoordinates.FromTile(playerTile);
         
         foreach (var neighbour in currentPatch.GetNeighbours())
         {

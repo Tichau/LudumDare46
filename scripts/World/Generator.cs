@@ -8,6 +8,7 @@ namespace World
 
         private Settings settings;
         private TileType[,] patchCache;
+        private TileType[,] patchOperationCache;
         private float[][,] noiseByOctave;
         private float[,] floatCache;
 
@@ -26,6 +27,7 @@ namespace World
             Random random = new Random(this.settings.Seed);
 
             this.patchCache = new TileType[PatchCoordinates.PatchWidth, PatchCoordinates.PatchHeight];
+            this.patchOperationCache = new TileType[PatchCoordinates.PatchWidth, PatchCoordinates.PatchHeight];
             this.floatCache = new float[PatchCoordinates.PatchWidth, PatchCoordinates.PatchHeight];
             this.noiseByOctave = new float[NoiseOctaveCount][,];
 
@@ -35,6 +37,8 @@ namespace World
         public TileType[,] GenerateWorldPatch(PatchCoordinates patchCoordinates)
         {
             Debug.Assert(this.patchCache != null && this.patchCache.GetLength(0) == PatchCoordinates.PatchWidth && this.patchCache.GetLength(1) == PatchCoordinates.PatchHeight, "Invalid world patch");
+
+            System.Array.Clear(this.patchCache, 0, PatchCoordinates.PatchWidth * PatchCoordinates.PatchHeight);
 
             Random random = new Random(this.settings.Seed.GetHashCode() + patchCoordinates.GetHashCode());
 
@@ -55,6 +59,39 @@ namespace World
                         this.patchCache[i, j] = TileType.Grass;
                     }
                     else
+                    {
+                        this.patchCache[i, j] = TileType.Water;
+                    }
+                }
+            }
+            
+            // Grow water tiles to avoid invalid patterns.
+            System.Array.Clear(this.patchOperationCache, 0, PatchCoordinates.PatchWidth * PatchCoordinates.PatchHeight);
+            for (int i = 0; i < PatchCoordinates.PatchWidth; i++)
+            {
+                for (int j = 0; j < PatchCoordinates.PatchHeight; j++)
+                {
+                    if (this.patchCache[i, j] == TileType.Water)
+                    {
+                        var tile = new World.TileCoordinates(i, j);
+                        foreach (var neighbour in tile.GetNeighbours())
+                        {
+                            if (neighbour.X < 0 || neighbour.Y < 0 || neighbour.X >= PatchCoordinates.PatchWidth || neighbour.Y >= PatchCoordinates.PatchHeight)
+                            {
+                                continue;
+                            }
+
+                            this.patchOperationCache[neighbour.X, neighbour.Y] = TileType.Water;
+                        }
+                    }
+                }
+            }
+
+            for (int i = 0; i < PatchCoordinates.PatchWidth; i++)
+            {
+                for (int j = 0; j < PatchCoordinates.PatchHeight; j++)
+                {
+                    if (this.patchOperationCache[i, j] == TileType.Water)
                     {
                         this.patchCache[i, j] = TileType.Water;
                     }
