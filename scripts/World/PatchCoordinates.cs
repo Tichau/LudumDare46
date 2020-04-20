@@ -19,20 +19,20 @@ namespace World
 
         public Rect2 TileRect => new Rect2(new Vector2(this.X * PatchCoordinates.PatchWidth, this.Y * PatchCoordinates.PatchHeight), PatchCoordinates.PatchWidth, PatchCoordinates.PatchHeight);
 
-        public static PatchCoordinates FromTileIndex(int x, int y)
+        public static PatchCoordinates FromTile(TileCoordinates tileCoordinates)
         {
             var coordinates = new PatchCoordinates()
             {
-                X = x / PatchWidth,
-                Y = y / PatchHeight
+                X = tileCoordinates.X / PatchWidth,
+                Y = tileCoordinates.Y / PatchHeight
             };
 
-            if (x < 0)
+            if (tileCoordinates.X < 0)
             {
                 coordinates.X--;
             }
 
-            if (y < 0)
+            if (tileCoordinates.Y < 0)
             {
                 coordinates.Y--;
             }

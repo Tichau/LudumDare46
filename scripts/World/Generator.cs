@@ -7,7 +7,7 @@ namespace World
         private const int NoiseOctaveCount = 5;
 
         private Settings settings;
-        private Tile[,] patchCache;
+        private TileType[,] patchCache;
         private float[][,] noiseByOctave;
         private float[,] floatCache;
 
@@ -25,14 +25,14 @@ namespace World
             // Instantiate data structures.
             Random random = new Random(this.settings.Seed);
 
-            this.patchCache = new Tile[PatchCoordinates.PatchWidth, PatchCoordinates.PatchHeight];
+            this.patchCache = new TileType[PatchCoordinates.PatchWidth, PatchCoordinates.PatchHeight];
             this.floatCache = new float[PatchCoordinates.PatchWidth, PatchCoordinates.PatchHeight];
             this.noiseByOctave = new float[NoiseOctaveCount][,];
 
             this.noiseByOctave[0] = Noise.GenerateWhiteNoise(PatchCoordinates.PatchWidth, PatchCoordinates.PatchHeight, random);
         }
 
-        public Tile[,] GenerateWorldPatch(PatchCoordinates patchCoordinates)
+        public TileType[,] GenerateWorldPatch(PatchCoordinates patchCoordinates)
         {
             Debug.Assert(this.patchCache != null && this.patchCache.GetLength(0) == PatchCoordinates.PatchWidth && this.patchCache.GetLength(1) == PatchCoordinates.PatchHeight, "Invalid world patch");
 
@@ -52,11 +52,11 @@ namespace World
                 {
                     if (this.floatCache[i, j] > this.settings.SeaLevel)
                     {
-                        this.patchCache[i, j] = Tile.Grass;
+                        this.patchCache[i, j] = TileType.Grass;
                     }
                     else
                     {
-                        this.patchCache[i, j] = Tile.Water;
+                        this.patchCache[i, j] = TileType.Water;
                     }
                 }
             }

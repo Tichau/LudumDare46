@@ -14,13 +14,13 @@ public class WorldMap : TileMap
     public override void _Ready()
     {
         // Load tile indexes.
-        string[] tileNames = System.Enum.GetNames(typeof(World.Tile));
+        string[] tileNames = System.Enum.GetNames(typeof(World.TileType));
         this.tileInfoByTile = new TileInfo[tileNames.Length];
         for (int index = 0; index < this.tileInfoByTile.Length; index++)
         {
             ref TileInfo tile = ref this.tileInfoByTile[index];
 
-            tile.Tile = (World.Tile)index;
+            tile.Tile = (World.TileType)index;
             tile.TileIndex = this.TileSet.FindTileByName(tileNames[index]);
             if (tile.TileIndex < 0)
             {
@@ -53,7 +53,7 @@ public class WorldMap : TileMap
 
     public override void _Process(float delta)
     {
-        World.PatchCoordinates currentPatch = World.PatchCoordinates.FromTileIndex((int)this.player.Position.x / (int)this.CellSize.x, (int)this.player.Position.y / (int)this.CellSize.y);
+        World.PatchCoordinates currentPatch = World.PatchCoordinates.FromTile(World.TileCoordinates.FromPosition(this.player.Position, this.CellSize));
         
         foreach (var neighbour in currentPatch.GetNeighbours())
         {
@@ -102,7 +102,7 @@ public class WorldMap : TileMap
 
     private struct TileInfo
     {
-        public World.Tile Tile;
+        public World.TileType Tile;
         public int TileIndex;
     }
 }
