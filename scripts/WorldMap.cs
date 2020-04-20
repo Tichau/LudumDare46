@@ -27,17 +27,21 @@ public class WorldMap : TileMap
 
         World.Generator.Settings settings = new World.Generator.Settings
         {
-            Seed = 1,
+            Seed = 2,
             SeaLevel = 0.5f,
             ChaosLevel = 0.6f,
         };
 
         this.worldGenerator = new World.Generator(settings);
-        
-        this.GenerateWorldPatch(new World.PatchCoordinates(-1, 0));
-        this.GenerateWorldPatch(new World.PatchCoordinates(0, 0));
-        this.GenerateWorldPatch(new World.PatchCoordinates(-1, -1));
-        this.GenerateWorldPatch(new World.PatchCoordinates(0, -1));
+
+        int half = 1;
+        for (int i = -half; i < half; i++)
+        {
+            for (int j = -half; j < half; j++)
+            {
+                this.GenerateWorldPatch(new World.PatchCoordinates(i, j));
+            }
+        }
     }
 
     public override void _Process(float delta)

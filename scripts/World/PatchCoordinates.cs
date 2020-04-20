@@ -4,8 +4,8 @@ namespace World
 {
     public struct PatchCoordinates
     {
-        public const int PatchWidth = 128;
-        public const int PatchHeight = 128;
+        public const int PatchWidth = 32;
+        public const int PatchHeight = 32;
 
         public int X;
         public int Y;
