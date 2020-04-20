@@ -29,6 +29,7 @@ public class WorldMap : TileMap
         {
             Seed = 1,
             SeaLevel = 0.5f,
+            ChaosLevel = 0.6f,
         };
 
         this.worldGenerator = new World.Generator(settings);

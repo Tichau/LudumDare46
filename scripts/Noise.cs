@@ -2,6 +2,8 @@ using System;
 
 public static class Noise
 {
+    public delegate float InterpolationFunction(float x0, float x1, float ratio);
+
     public static float[,] GenerateWhiteNoise(int width, int height, Random random)
     {
         float[,] noise = new float[width, height];
@@ -10,14 +12,14 @@ public static class Noise
         {
             for (int j = 0; j < height; j++)
             {
-                noise[i, j] = (float)random.NextDouble() % 1;
+                noise[i, j] = (float)random.NextDouble();
             }
         }
 
         return noise;
     }
 
-    public static float[,] GenerateSmoothNoise(float[,] baseNoise, int octave)
+    public static float[,] GenerateSmoothNoise(float[,] baseNoise, int octave, InterpolationFunction interpolate)
     {
         int width = baseNoise.GetLength(0);
         int height = baseNoise.GetLength(1);
@@ -29,52 +31,48 @@ public static class Noise
         
         for (int i = 0; i < width; i++)
         {
-            //calculate the horizontal sampling indices
+            // Calculate the horizontal sampling indices
             int sample_i0 = (i / samplePeriod) * samplePeriod;
-            int sample_i1 = (sample_i0 + samplePeriod) % width; //wrap around
+            int sample_i1 = (sample_i0 + samplePeriod) % width; // Wrap around
             float horizontal_blend = (i - sample_i0) * sampleFrequency;
         
             for (int j = 0; j < height; j++)
             {
-                //calculate the vertical sampling indices
+                // Calculate the vertical sampling indices
                 int sample_j0 = (j / samplePeriod) * samplePeriod;
                 int sample_j1 = (sample_j0 + samplePeriod) % height; //wrap around
                 float vertical_blend = (j - sample_j0) * sampleFrequency;
         
-                //blend the top two corners
-                float top = Noise.Interpolate(baseNoise[sample_i0, sample_j0], baseNoise[sample_i1, sample_j0], horizontal_blend);
+                // Blend the top two corners
+                float top = interpolate.Invoke(baseNoise[sample_i0, sample_j0], baseNoise[sample_i1, sample_j0], horizontal_blend);
         
-                //blend the bottom two corners
-                float bottom = Noise.Interpolate(baseNoise[sample_i0, sample_j1], baseNoise[sample_i1, sample_j1], horizontal_blend);
+                // Blend the bottom two corners
+                float bottom = interpolate.Invoke(baseNoise[sample_i0, sample_j1], baseNoise[sample_i1, sample_j1], horizontal_blend);
         
-                //final blend
-                smoothNoise[i, j] = Noise.Interpolate(top, bottom, vertical_blend);
+                // Final blend
+                smoothNoise[i, j] = interpolate.Invoke(top, bottom, vertical_blend);
             }
         }
         
         return smoothNoise;
     }
 
-    public static float[,] GeneratePerlinNoise(float[,] baseNoise, int octaveCount)
+    public static float[,] GeneratePerlinNoise(float[][,] noiseByOctave, float persistance)
     {
-        int width = baseNoise.GetLength(0);
-        int height = baseNoise.GetLength(1);
-    
-        float[][,] smoothNoise = new float[octaveCount][,];
-        
-        float persistance = 0.5f;
-        
-        //generate smooth noise
-        for (int i = 0; i < octaveCount; i++)
+        int octaveCount = noiseByOctave.Length;
+        if (octaveCount == 0)
         {
-            smoothNoise[i] = Noise.GenerateSmoothNoise(baseNoise, i);
+            throw new System.ArgumentOutOfRangeException("noiseByOctave");
         }
-        
+
+        int width = noiseByOctave[0].GetLength(0);
+        int height = noiseByOctave[0].GetLength(1);
+    
         float[,] perlinNoise = new float[width, height];
+    
+        // Blend noise together
         float amplitude = 1.0f;
         float totalAmplitude = 0.0f;
-    
-        //blend noise together
         for (int octave = octaveCount - 1; octave >= 0; octave--)
         {
             amplitude *= persistance;
@@ -84,12 +82,12 @@ public static class Noise
             {
                 for (int j = 0; j < height; j++)
                 {
-                    perlinNoise[i, j] += smoothNoise[octave][i,j] * amplitude;
+                    perlinNoise[i, j] += noiseByOctave[octave][i,j] * amplitude;
                 }
             }
         }
         
-        //normalisation
+        // Normalisation
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
@@ -101,7 +99,7 @@ public static class Noise
         return perlinNoise;
     }
 
-    private static float Interpolate(float x0, float x1, float alpha)
+    public static float LinearInterpolation(float x0, float x1, float alpha)
     {
         return x0 * (1 - alpha) + alpha * x1;
     }

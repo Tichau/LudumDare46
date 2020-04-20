@@ -4,14 +4,17 @@ namespace World
 {
     public class Generator
     {
+        private const int NoiseOctaveCount = 5;
+
         private Settings settings;
         private Tile[,] patchCache;
-        private float[,] whiteNoise;
+        private float[][,] noiseByOctave;
 
         public struct Settings
         {
             public int Seed;
             public float SeaLevel;
+            public float ChaosLevel;
         }
 
         public Generator(Settings settings)
@@ -22,17 +25,25 @@ namespace World
             Random random = new Random(this.settings.Seed);
 
             this.patchCache = new Tile[PatchCoordinates.PatchWidth, PatchCoordinates.PatchHeight];
-            this.whiteNoise = Noise.GenerateWhiteNoise(PatchCoordinates.PatchWidth, PatchCoordinates.PatchHeight, random);
+            float[,] whiteNoise = Noise.GenerateWhiteNoise(PatchCoordinates.PatchWidth, PatchCoordinates.PatchHeight, random);
+
+            this.noiseByOctave = new float[NoiseOctaveCount][,];
+        
+            // Generate smooth noise
+            for (int i = 0; i < NoiseOctaveCount; i++)
+            {
+                this.noiseByOctave[i] = Noise.GenerateSmoothNoise(whiteNoise, i, Noise.LinearInterpolation);
+            }
         }
 
         public Tile[,] GenerateWorldPatch(PatchCoordinates patchCoordinates)
         {
             Debug.Assert(this.patchCache != null && this.patchCache.GetLength(0) == PatchCoordinates.PatchWidth && this.patchCache.GetLength(0) == PatchCoordinates.PatchHeight, "Invalid world patch");
 
-            Random random = new Random(this.settings.Seed);
+            Random random = new Random(this.settings.Seed.GetHashCode() + patchCoordinates.GetHashCode());
 
             // Generate terrain type.
-            float[,] perlinNoise = Noise.GeneratePerlinNoise(this.whiteNoise, 5);
+            float[,] perlinNoise = Noise.GeneratePerlinNoise(this.noiseByOctave, this.settings.ChaosLevel);
 
             for (int i = 0; i < PatchCoordinates.PatchWidth; i++)
             {
