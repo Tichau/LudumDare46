@@ -2,11 +2,14 @@ using Godot;
 
 public class WorldMap : TileMap
 {
-    private float _debugScale = 1f;
+    private PlayerController player;
 
     private TileInfo[] tileInfoByTile;
 
     private World.Generator worldGenerator;
+    private System.Collections.Generic.HashSet<World.PatchCoordinates> patchLoaded = new System.Collections.Generic.HashSet<World.PatchCoordinates>();
+
+    private float _debugScale = 1f;
 
     public override void _Ready()
     {
@@ -25,6 +28,10 @@ public class WorldMap : TileMap
             }
         }
 
+        // Get player
+        this.player = this.GetNode("/root/Game/Player") as PlayerController;
+        Debug.Assert(this.player);
+
         World.Generator.Settings settings = new World.Generator.Settings
         {
             Seed = 2,
@@ -34,10 +41,10 @@ public class WorldMap : TileMap
 
         this.worldGenerator = new World.Generator(settings);
 
-        int half = 1;
-        for (int i = -half; i < half; i++)
+        int preloadPatchCount = 1;
+        for (int i = -preloadPatchCount; i < preloadPatchCount; i++)
         {
-            for (int j = -half; j < half; j++)
+            for (int j = -preloadPatchCount; j < preloadPatchCount; j++)
             {
                 this.GenerateWorldPatch(new World.PatchCoordinates(i, j));
             }
@@ -46,6 +53,16 @@ public class WorldMap : TileMap
 
     public override void _Process(float delta)
     {
+        World.PatchCoordinates currentPatch = World.PatchCoordinates.FromTileIndex((int)this.player.Position.x / (int)this.CellSize.x, (int)this.player.Position.y / (int)this.CellSize.y);
+        
+        foreach (var neighbour in currentPatch.GetNeighbours())
+        {
+            if (!this.patchLoaded.Contains(neighbour))
+            {
+                this.GenerateWorldPatch(neighbour);
+            }
+        }
+
         if (Input.IsActionJustReleased("debug_dezoom"))
         {
             this._debugScale /= 2;
@@ -77,6 +94,10 @@ public class WorldMap : TileMap
         }
 
         this.UpdateBitmaskRegion(rect.Position, rect.End);
+
+        this.patchLoaded.Add(patchCoordinates);
+
+        Debug.Log($"Patch {patchCoordinates} generated.");
     }
 
     private struct TileInfo

@@ -10,8 +10,6 @@ public class PlayerController : KinematicBody2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		GD.Print("Hello from C# to Godot :)");
-
 		this.PlayerSprite = this.GetNode("AnimatedSprite") as  AnimatedSprite;
 		if (this.PlayerSprite == null)
 		{

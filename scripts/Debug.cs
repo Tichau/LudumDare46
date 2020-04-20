@@ -27,4 +27,12 @@ public static class Debug
             GD.PrintErr($"Assertion failed: {message}");
         }
     }
+
+    public static void Assert(object notNullObject)
+    {
+        if (notNullObject == null)
+        {
+            GD.PrintErr("Assertion failed");
+        }
+    }
 }
