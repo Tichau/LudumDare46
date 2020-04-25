@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/terrain-tileset.png-3c1075840c995880e45f50e12442be93.stex"
+path="res://.import/CharacterSpritesheet.png-84a1740670787a6e161c7b809ea05711.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/terrain-tileset.png"
-dest_files=[ "res://.import/terrain-tileset.png-3c1075840c995880e45f50e12442be93.stex" ]
+source_file="res://assets/CharacterSpritesheet.png"
+dest_files=[ "res://.import/CharacterSpritesheet.png-84a1740670787a6e161c7b809ea05711.stex" ]
 
 [params]
 
