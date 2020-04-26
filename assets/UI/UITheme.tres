@@ -1,0 +1,51 @@
+[gd_resource type="Theme" load_steps=10 format=2]
+
+[ext_resource path="res://assets/UI/UIAtlas.png" type="Texture" id=1]
+[ext_resource path="res://assets/BitPotion.tres" type="DynamicFont" id=3]
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 32, 6, 6 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 1 )
+region = Rect2( 12, 32, 6, 6 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 1 )
+region = Rect2( 6, 32, 6, 6 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 1 )
+region = Rect2( 2, 40, 2, 2 )
+
+[sub_resource type="StyleBoxTexture" id=9]
+texture = ExtResource( 1 )
+region_rect = Rect2( 33, 32, 15, 6 )
+margin_left = 5.0
+margin_right = 5.0
+
+[sub_resource type="StyleBoxTexture" id=6]
+texture = ExtResource( 1 )
+region_rect = Rect2( 18, 32, 15, 6 )
+margin_left = 4.7613
+margin_right = 4.7486
+
+[sub_resource type="StyleBoxTexture" id=10]
+texture = ExtResource( 1 )
+region_rect = Rect2( 0, 0, 32, 32 )
+margin_left = 3.0
+margin_right = 2.96929
+margin_top = 3.08429
+margin_bottom = 3.0857
+modulate_color = Color( 1, 1, 1, 0.862745 )
+
+[resource]
+default_font = ExtResource( 3 )
+HSlider/icons/grabber = SubResource( 7 )
+HSlider/icons/grabber_disabled = SubResource( 3 )
+HSlider/icons/grabber_highlight = SubResource( 4 )
+HSlider/icons/tick = SubResource( 8 )
+HSlider/styles/grabber_area = SubResource( 9 )
+HSlider/styles/slider = SubResource( 6 )
+Panel/styles/panel = SubResource( 10 )

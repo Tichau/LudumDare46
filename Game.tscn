@@ -4,11 +4,20 @@
 [ext_resource path="res://assets/CharacterSpriteframes.tres" type="SpriteFrames" id=2]
 [ext_resource path="res://scripts/PlayerController.cs" type="Script" id=3]
 [ext_resource path="res://scripts/WorldMap.cs" type="Script" id=4]
+[ext_resource path="res://UI.tscn" type="PackedScene" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 6.01109
 
 [node name="Game" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+scale = Vector2( 0.5, 0.5 )
+transform = Transform2D( 0.5, 0, 0, 0.5, 0, 0 )
+
+[node name="UI" parent="CanvasLayer" instance=ExtResource( 5 )]
+margin_right = 85.0
+margin_bottom = 95.0
 
 [node name="World" type="TileMap" parent="."]
 tile_set = ExtResource( 1 )
