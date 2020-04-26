@@ -11,14 +11,6 @@ radius = 6.01109
 
 [node name="Game" type="Node2D"]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-scale = Vector2( 0.5, 0.5 )
-transform = Transform2D( 0.5, 0, 0, 0.5, 0, 0 )
-
-[node name="UI" parent="CanvasLayer" instance=ExtResource( 5 )]
-margin_right = 85.0
-margin_bottom = 95.0
-
 [node name="World" type="TileMap" parent="."]
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 32, 32 )
@@ -40,3 +32,5 @@ shape = SubResource( 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Player"]
 frames = ExtResource( 2 )
 animation = "walk-front"
+
+[node name="UI" parent="." instance=ExtResource( 5 )]

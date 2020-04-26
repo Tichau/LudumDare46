@@ -3,22 +3,28 @@
 [ext_resource path="res://assets/UI/UITheme.tres" type="Theme" id=2]
 [ext_resource path="res://scripts/UI.cs" type="Script" id=3]
 
-[node name="UI" type="MarginContainer"]
-margin_right = 84.0
-margin_bottom = 100.0
+[node name="UILayer" type="CanvasLayer"]
+scale = Vector2( 0.5, 0.5 )
+transform = Transform2D( 0.5, 0, 0, 0.5, 0, 0 )
+
+[node name="UI" type="Container" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 40.0
+margin_bottom = 40.0
+theme = ExtResource( 2 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="WorldGeneratorPanel" type="Panel" parent="."]
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 90.0
-margin_bottom = 100.0
-theme = ExtResource( 2 )
+[node name="WorldGeneratorPanel" type="Panel" parent="UI"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 87.0
+margin_bottom = 122.0
 
-[node name="Content" type="VBoxContainer" parent="WorldGeneratorPanel"]
+[node name="Content" type="VBoxContainer" parent="UI/WorldGeneratorPanel"]
 margin_left = 5.0
 margin_top = 5.0
 margin_right = 80.0
@@ -27,40 +33,59 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Title" type="Label" parent="WorldGeneratorPanel/Content"]
+[node name="Title" type="Label" parent="UI/WorldGeneratorPanel/Content"]
 margin_right = 75.0
 margin_bottom = 14.0
-theme = ExtResource( 2 )
 custom_colors/font_color = Color( 0.298039, 0.294118, 0.254902, 1 )
 text = "WORLD GENERATOR"
 
-[node name="SeaLevelTitle" type="Label" parent="WorldGeneratorPanel/Content"]
+[node name="SeedTitle" type="Label" parent="UI/WorldGeneratorPanel/Content"]
 margin_top = 18.0
 margin_right = 75.0
 margin_bottom = 32.0
-theme = ExtResource( 2 )
+custom_colors/font_color = Color( 0.35, 0.345917, 0.301, 1 )
+text = "Seed"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SeedEdit" type="LineEdit" parent="UI/WorldGeneratorPanel/Content"]
+margin_top = 36.0
+margin_right = 75.0
+margin_bottom = 50.0
+text = "0123456789"
+max_length = 10
+
+[node name="SeaLevelTitle" type="Label" parent="UI/WorldGeneratorPanel/Content"]
+margin_top = 54.0
+margin_right = 75.0
+margin_bottom = 68.0
 custom_colors/font_color = Color( 0.35, 0.345917, 0.301, 1 )
 text = "Sea level"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SeaLevelSlider" type="HSlider" parent="WorldGeneratorPanel/Content"]
-margin_top = 36.0
+[node name="SeaLevelSlider" type="HSlider" parent="UI/WorldGeneratorPanel/Content"]
+margin_top = 72.0
 margin_right = 75.0
-margin_bottom = 42.0
-theme = ExtResource( 2 )
+margin_bottom = 78.0
+max_value = 1.0
+step = 0.01
 
-[node name="ChaosLevelTitle" type="Label" parent="WorldGeneratorPanel/Content"]
-margin_top = 46.0
+[node name="ChaosLevelTitle" type="Label" parent="UI/WorldGeneratorPanel/Content"]
+margin_top = 82.0
 margin_right = 75.0
-margin_bottom = 60.0
-theme = ExtResource( 2 )
+margin_bottom = 96.0
 custom_colors/font_color = Color( 0.34902, 0.345098, 0.301961, 1 )
 text = "Chaos level"
 
-[node name="ChaosLevelSlider" type="HSlider" parent="WorldGeneratorPanel/Content"]
-margin_top = 64.0
+[node name="ChaosLevelSlider" type="HSlider" parent="UI/WorldGeneratorPanel/Content"]
+margin_top = 100.0
 margin_right = 75.0
-margin_bottom = 70.0
-theme = ExtResource( 2 )
+margin_bottom = 106.0
+max_value = 1.0
+step = 0.01
+[connection signal="text_changed" from="UI/WorldGeneratorPanel/Content/SeedEdit" to="UI" method="OnSeedEditTextChanged"]
+[connection signal="value_changed" from="UI/WorldGeneratorPanel/Content/SeaLevelSlider" to="UI" method="OnSeaLevelSliderValueChanged"]
+[connection signal="value_changed" from="UI/WorldGeneratorPanel/Content/ChaosLevelSlider" to="UI" method="OnChaosLevelSliderValueChanged"]
