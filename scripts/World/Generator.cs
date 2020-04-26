@@ -5,32 +5,34 @@ namespace World
     public class Generator
     {
         private const int NoiseOctaveCount = 5;
-
-        private Settings settings;
+        
         private TileType[,] patchCache;
         private TileType[,] patchOperationCache;
         private float[][,] noiseByOctave;
         private float[,] floatCache;
 
-        public struct Settings
+        public Generator(GeneratorSettings settings)
         {
-            public int Seed;
-            public float SeaLevel;
-            public float ChaosLevel;
-        }
-
-        public Generator(Settings settings)
-        {
-            this.settings = settings;
-
             // Instantiate data structures.
-            Random random = new Random(this.settings.Seed);
-
             this.patchCache = new TileType[PatchCoordinates.PatchWidth, PatchCoordinates.PatchHeight];
             this.patchOperationCache = new TileType[PatchCoordinates.PatchWidth, PatchCoordinates.PatchHeight];
             this.floatCache = new float[PatchCoordinates.PatchWidth, PatchCoordinates.PatchHeight];
             this.noiseByOctave = new float[NoiseOctaveCount][,];
+            
+            this.ChangeSettings(settings);
+        }
+        
+        public GeneratorSettings Settings
+        {
+            get;
+            private set;
+        }
 
+        public void ChangeSettings(GeneratorSettings settings)
+        {
+            this.Settings = settings;
+
+            Random random = new Random(this.Settings.Seed);
             this.noiseByOctave[0] = Noise.GenerateWhiteNoise(PatchCoordinates.PatchWidth, PatchCoordinates.PatchHeight, random);
         }
 
@@ -40,7 +42,7 @@ namespace World
 
             System.Array.Clear(this.patchCache, 0, PatchCoordinates.PatchWidth * PatchCoordinates.PatchHeight);
 
-            Random random = new Random(this.settings.Seed.GetHashCode() + patchCoordinates.GetHashCode());
+            Random random = new Random(this.Settings.Seed.GetHashCode() + patchCoordinates.GetHashCode());
 
             // Generate terrain type.
             for (int octave = 1; octave < NoiseOctaveCount; octave++)
@@ -48,13 +50,14 @@ namespace World
                 Noise.GenerateStretchNoise(this.noiseByOctave[0], patchCoordinates.X, patchCoordinates.Y, octave, Noise.LinearInterpolation, ref this.noiseByOctave[octave]);
             }
 
-            Noise.GeneratePerlinNoise(this.noiseByOctave, this.settings.ChaosLevel, ref this.floatCache);
+            float perlinPersistance = System.Math.Max(this.Settings.ChaosLevel, 0.01f);
+            Noise.GeneratePerlinNoise(this.noiseByOctave, perlinPersistance, ref this.floatCache);
 
             for (int i = 0; i < PatchCoordinates.PatchWidth; i++)
             {
                 for (int j = 0; j < PatchCoordinates.PatchHeight; j++)
                 {
-                    if (this.floatCache[i, j] > this.settings.SeaLevel)
+                    if (this.floatCache[i, j] > this.Settings.SeaLevel)
                     {
                         this.patchCache[i, j] = TileType.Grass;
                     }

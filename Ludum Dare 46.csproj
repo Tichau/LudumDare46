@@ -58,6 +58,7 @@
     <Compile Include="scripts\World\PatchCoordinates.cs" />
     <Compile Include="scripts\World\Tile.cs" />
     <Compile Include="scripts\World\Generator.cs" />
+    <Compile Include="scripts\World\GeneratorSettings.cs" />
     <Compile Include="scripts\Debug.cs" />
     <Compile Include="scripts\Noise.cs" />
     <Compile Include="scripts\PlayerController.cs" />

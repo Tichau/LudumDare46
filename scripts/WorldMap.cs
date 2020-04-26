@@ -2,6 +2,9 @@ using Godot;
 
 public class WorldMap : TileMap
 {
+    [Signal]
+    public delegate void GeneratorSettingsChanged();
+
     private PlayerController player;
 
     private TileInfo[] tileInfoByTile;
@@ -10,6 +13,19 @@ public class WorldMap : TileMap
     private System.Collections.Generic.HashSet<World.PatchCoordinates> patchLoaded = new System.Collections.Generic.HashSet<World.PatchCoordinates>();
 
     private float _debugScale = 1f;
+
+    public World.GeneratorSettings GeneratorSettings
+    {
+        get => this.worldGenerator.Settings;
+        set
+        {
+            this.worldGenerator.ChangeSettings(value);
+
+            this.patchLoaded.Clear();
+
+            this.EmitSignal("GeneratorSettingsChanged");
+        }
+    }
 
     public override void _Ready()
     {
@@ -32,7 +48,7 @@ public class WorldMap : TileMap
         this.player = this.GetNode("/root/Game/Player") as PlayerController;
         Debug.Assert(this.player);
 
-        World.Generator.Settings settings = new World.Generator.Settings
+        var settings = new World.GeneratorSettings
         {
             Seed = 2,
             SeaLevel = 0.45f,
@@ -41,7 +57,9 @@ public class WorldMap : TileMap
 
         this.worldGenerator = new World.Generator(settings);
 
-        int preloadPatchCount = 1;
+        this.EmitSignal("GeneratorSettingsChanged");
+
+        int preloadPatchCount = 0;
         for (int i = -preloadPatchCount; i < preloadPatchCount; i++)
         {
             for (int j = -preloadPatchCount; j < preloadPatchCount; j++)
@@ -56,6 +74,11 @@ public class WorldMap : TileMap
         var playerTile = World.TileCoordinates.FromPosition(this.player.Position, this.CellSize);
         World.PatchCoordinates currentPatch = World.PatchCoordinates.FromTile(playerTile);
         
+        if (!this.patchLoaded.Contains(currentPatch))
+        {
+            this.GenerateWorldPatch(currentPatch);
+        }
+
         foreach (var neighbour in currentPatch.GetNeighbours())
         {
             if (!this.patchLoaded.Contains(neighbour))
