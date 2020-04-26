@@ -1,25 +1,25 @@
-[gd_resource type="Theme" load_steps=10 format=2]
+[gd_resource type="Theme" load_steps=13 format=2]
 
 [ext_resource path="res://assets/UI/UIAtlas.png" type="Texture" id=1]
 [ext_resource path="res://assets/BitPotion.tres" type="DynamicFont" id=3]
 
-[sub_resource type="AtlasTexture" id=7]
+[sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 1 )
 region = Rect2( 0, 32, 6, 6 )
 
-[sub_resource type="AtlasTexture" id=3]
+[sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 1 )
 region = Rect2( 12, 32, 6, 6 )
 
-[sub_resource type="AtlasTexture" id=4]
+[sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 1 )
 region = Rect2( 6, 32, 6, 6 )
 
-[sub_resource type="AtlasTexture" id=8]
+[sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 1 )
 region = Rect2( 2, 40, 2, 2 )
 
-[sub_resource type="StyleBoxTexture" id=9]
+[sub_resource type="StyleBoxTexture" id=5]
 texture = ExtResource( 1 )
 region_rect = Rect2( 33, 32, 15, 6 )
 margin_left = 5.0
@@ -30,6 +30,27 @@ texture = ExtResource( 1 )
 region_rect = Rect2( 18, 32, 15, 6 )
 margin_left = 4.7613
 margin_right = 4.7486
+
+[sub_resource type="StyleBoxTexture" id=7]
+texture = ExtResource( 1 )
+region_rect = Rect2( 15, 38, 15, 13 )
+margin_left = 4.0
+margin_right = 4.0
+expand_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxTexture" id=8]
+texture = ExtResource( 1 )
+region_rect = Rect2( 0, 38, 15, 13 )
+margin_left = 4.0
+margin_right = 4.0
+expand_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxTexture" id=9]
+texture = ExtResource( 1 )
+region_rect = Rect2( 30, 38, 15, 13 )
+margin_left = 4.0
+margin_right = 4.0
+expand_margin_bottom = 1.0
 
 [sub_resource type="StyleBoxTexture" id=10]
 texture = ExtResource( 1 )
@@ -42,10 +63,23 @@ modulate_color = Color( 1, 1, 1, 0.862745 )
 
 [resource]
 default_font = ExtResource( 3 )
-HSlider/icons/grabber = SubResource( 7 )
-HSlider/icons/grabber_disabled = SubResource( 3 )
-HSlider/icons/grabber_highlight = SubResource( 4 )
-HSlider/icons/tick = SubResource( 8 )
-HSlider/styles/grabber_area = SubResource( 9 )
+HSlider/icons/grabber = SubResource( 1 )
+HSlider/icons/grabber_disabled = SubResource( 2 )
+HSlider/icons/grabber_highlight = SubResource( 3 )
+HSlider/icons/tick = SubResource( 4 )
+HSlider/styles/grabber_area = SubResource( 5 )
 HSlider/styles/slider = SubResource( 6 )
+LineEdit/colors/clear_button_color = Color( 0.88, 0.88, 0.88, 1 )
+LineEdit/colors/clear_button_color_pressed = Color( 1, 1, 1, 1 )
+LineEdit/colors/cursor_color = Color( 0.470588, 0.462745, 0.403922, 1 )
+LineEdit/colors/font_color = Color( 0.470588, 0.462745, 0.403922, 1 )
+LineEdit/colors/font_color_selected = Color( 0.129412, 0.12549, 0.109804, 1 )
+LineEdit/colors/font_color_uneditable = Color( 0.88, 0.88, 0.88, 0.5 )
+LineEdit/colors/selection_color = Color( 0.470588, 0.462745, 0.403922, 1 )
+LineEdit/constants/minimum_spaces = 12
+LineEdit/fonts/font = null
+LineEdit/icons/clear = null
+LineEdit/styles/focus = SubResource( 7 )
+LineEdit/styles/normal = SubResource( 8 )
+LineEdit/styles/read_only = SubResource( 9 )
 Panel/styles/panel = SubResource( 10 )
