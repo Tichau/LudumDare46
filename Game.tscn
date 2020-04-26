@@ -33,4 +33,4 @@ shape = SubResource( 1 )
 frames = ExtResource( 2 )
 animation = "walk-front"
 
-[node name="UI" parent="." instance=ExtResource( 5 )]
+[node name="UILayer" parent="." instance=ExtResource( 5 )]
