@@ -63,6 +63,7 @@
     <Compile Include="scripts\Noise.cs" />
     <Compile Include="scripts\PlayerController.cs" />
     <Compile Include="scripts\WorldMap.cs" />
+    <Compile Include="WorldGeneratorDebugPanel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
