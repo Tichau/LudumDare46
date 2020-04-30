@@ -4,8 +4,6 @@
 [ext_resource path="res://assets/WaterTileset.png" type="Texture" id=2]
 [ext_resource path="res://scripts/Shaders/AnimatedTileset.shader" type="Shader" id=3]
 
-
-
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 3 )
 shader_param/speed = 0.3
