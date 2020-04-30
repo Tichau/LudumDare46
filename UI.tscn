@@ -39,7 +39,7 @@ __meta__ = {
 margin_right = 75.0
 margin_bottom = 14.0
 custom_colors/font_color = Color( 0.298039, 0.294118, 0.254902, 1 )
-text = "WORLD GENERATOR"
+text = "WorldGenerator"
 
 [node name="SeedTitle" type="Label" parent="UI/WorldGeneratorPanel/Content"]
 margin_top = 18.0
@@ -64,7 +64,7 @@ margin_top = 54.0
 margin_right = 75.0
 margin_bottom = 68.0
 custom_colors/font_color = Color( 0.35, 0.345917, 0.301, 1 )
-text = "Sea level"
+text = "SeaLevel"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -82,7 +82,7 @@ margin_top = 82.0
 margin_right = 75.0
 margin_bottom = 96.0
 custom_colors/font_color = Color( 0.34902, 0.345098, 0.301961, 1 )
-text = "Chaos level"
+text = "ChaosLevel"
 
 [node name="ChaosLevelSlider" type="HSlider" parent="UI/WorldGeneratorPanel/Content"]
 margin_top = 100.0
