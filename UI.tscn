@@ -4,8 +4,6 @@
 [ext_resource path="res://scripts/UI.cs" type="Script" id=3]
 
 [node name="UILayer" type="CanvasLayer"]
-scale = Vector2( 0.5, 0.5 )
-transform = Transform2D( 0.5, 0, 0, 0.5, 0, 0 )
 
 [node name="UI" type="Container" parent="."]
 anchor_right = 1.0

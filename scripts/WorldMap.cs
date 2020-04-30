@@ -5,6 +5,12 @@ public class WorldMap : TileMap
     [Signal]
     public delegate void GeneratorSettingsChanged();
 
+	[Export]
+	private bool activateWorldGenerator = true;
+    
+	[Export]
+	private int preloadPatchCount = 0;
+
     private PlayerController player;
 
     private TileInfo[] tileInfoByTile;
@@ -59,31 +65,37 @@ public class WorldMap : TileMap
 
         this.EmitSignal("GeneratorSettingsChanged");
 
-        int preloadPatchCount = 0;
-        for (int i = -preloadPatchCount; i < preloadPatchCount; i++)
+        if (this.activateWorldGenerator)
         {
-            for (int j = -preloadPatchCount; j < preloadPatchCount; j++)
+            int preloadPatchCount = 0;
+            for (int i = -preloadPatchCount; i < preloadPatchCount; i++)
             {
-                this.GenerateWorldPatch(new World.PatchCoordinates(i, j));
+                for (int j = -preloadPatchCount; j < preloadPatchCount; j++)
+                {
+                    this.GenerateWorldPatch(new World.PatchCoordinates(i, j));
+                }
             }
         }
     }
 
     public override void _Process(float delta)
     {
-        var playerTile = World.TileCoordinates.FromPosition(this.player.Position, this.CellSize);
-        World.PatchCoordinates currentPatch = World.PatchCoordinates.FromTile(playerTile);
-        
-        if (!this.patchLoaded.Contains(currentPatch))
+        if (this.activateWorldGenerator)
         {
-            this.GenerateWorldPatch(currentPatch);
-        }
-
-        foreach (var neighbour in currentPatch.GetNeighbours())
-        {
-            if (!this.patchLoaded.Contains(neighbour))
+            var playerTile = World.TileCoordinates.FromPosition(this.player.Position, this.CellSize);
+            World.PatchCoordinates currentPatch = World.PatchCoordinates.FromTile(playerTile);
+            
+            if (!this.patchLoaded.Contains(currentPatch))
             {
-                this.GenerateWorldPatch(neighbour);
+                this.GenerateWorldPatch(currentPatch);
+            }
+
+            foreach (var neighbour in currentPatch.GetNeighbours())
+            {
+                if (!this.patchLoaded.Contains(neighbour))
+                {
+                    this.GenerateWorldPatch(neighbour);
+                }
             }
         }
 
