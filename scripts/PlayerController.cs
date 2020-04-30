@@ -13,7 +13,7 @@ public class PlayerController : KinematicBody2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		this.PlayerSprite = this.GetNode("AnimatedSprite") as  AnimatedSprite;
+		this.PlayerSprite = this.GetNode("View") as  AnimatedSprite;
 		if (this.PlayerSprite == null)
 		{
 			GD.PrintErr("Can't retrieve player sprite");

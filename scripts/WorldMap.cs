@@ -51,7 +51,7 @@ public class WorldMap : TileMap
         }
 
         // Get player
-        this.player = this.GetNode("/root/Game/Player") as PlayerController;
+        this.player = this.GetNode("/root/Game/Entities/Player") as PlayerController;
         Debug.Assert(this.player);
 
         var settings = new World.GeneratorSettings
