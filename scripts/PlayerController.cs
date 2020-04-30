@@ -22,6 +22,10 @@ public class PlayerController : KinematicBody2D
 
 	public override void _Process(float delta)
 	{
+        if (Input.IsActionPressed("quit"))
+        {
+            this.GetTree().Quit();
+        }
 	}
 
 	public override void _PhysicsProcess(float delta)
