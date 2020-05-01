@@ -18,8 +18,6 @@ public class WorldMap : TileMap
     private World.Generator worldGenerator;
     private System.Collections.Generic.HashSet<World.PatchCoordinates> patchLoaded = new System.Collections.Generic.HashSet<World.PatchCoordinates>();
 
-    private float _debugScale = 1f;
-
     public World.GeneratorSettings GeneratorSettings
     {
         get => this.worldGenerator.Settings;
@@ -97,20 +95,6 @@ public class WorldMap : TileMap
                     this.GenerateWorldPatch(neighbour);
                 }
             }
-        }
-
-        if (Input.IsActionJustReleased("debug_dezoom"))
-        {
-            this._debugScale /= 2;
-
-            (this.GetParent() as Node2D).Scale = new Vector2(this._debugScale, this._debugScale);
-        }
-        else if (Input.IsActionJustReleased("debug_zoom"))
-        {
-            this._debugScale *= 2;
-            this._debugScale = Mathf.Clamp(this._debugScale, 0f, 1f);
-
-            (this.GetParent() as Node2D).Scale = new Vector2(this._debugScale, this._debugScale);
         }
     }
 
