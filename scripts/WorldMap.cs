@@ -33,6 +33,8 @@ public class WorldMap : TileMap
 
     public override void _Ready()
     {
+        World.TileCoordinates.CellSize = this.CellSize;
+
         // Load tile indexes.
         string[] tileNames = System.Enum.GetNames(typeof(World.TileType));
         this.tileInfoByTile = new TileInfo[tileNames.Length];
@@ -80,7 +82,7 @@ public class WorldMap : TileMap
     {
         if (this.activateWorldGenerator)
         {
-            var playerTile = World.TileCoordinates.FromPosition(this.player.Position, this.CellSize);
+            var playerTile = World.TileCoordinates.FromPosition(this.player.Position);
             World.PatchCoordinates currentPatch = World.PatchCoordinates.FromTile(playerTile);
             
             if (!this.patchLoaded.Contains(currentPatch))

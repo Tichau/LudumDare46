@@ -5,6 +5,8 @@ namespace World
 {
     public struct TileCoordinates
     {
+        public static Vector2 CellSize = new Vector2(32, 32);
+
         public int X;
         public int Y;
 
@@ -14,12 +16,12 @@ namespace World
             this.Y = y;
         }
 
-        public static TileCoordinates FromPosition(Vector2 position, Vector2 cellSize)
+        public static TileCoordinates FromPosition(Vector2 position)
         {
             return new TileCoordinates
             {
-                X = (int)position.x / (int)cellSize.x,
-                Y = (int)position.y / (int)cellSize.y,
+                X = (int)position.x / (int)TileCoordinates.CellSize.x,
+                Y = (int)position.y / (int)TileCoordinates.CellSize.y,
             };
         }
 
