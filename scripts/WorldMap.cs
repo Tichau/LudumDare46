@@ -67,10 +67,9 @@ public class WorldMap : TileMap
 
         if (this.activateWorldGenerator)
         {
-            int preloadPatchCount = 0;
-            for (int i = -preloadPatchCount; i < preloadPatchCount; i++)
+            for (int i = -this.preloadPatchCount; i < this.preloadPatchCount; i++)
             {
-                for (int j = -preloadPatchCount; j < preloadPatchCount; j++)
+                for (int j = -this.preloadPatchCount; j < this.preloadPatchCount; j++)
                 {
                     this.GenerateWorldPatch(new World.PatchCoordinates(i, j));
                 }
